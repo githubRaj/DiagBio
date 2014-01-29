@@ -96,12 +96,14 @@
 						selected: function(event, ui) { 
 							$(ui.selected).addClass("ui-selected").siblings().removeClass("ui-selected");
 							$( ".ui-selected", this ).each(function() {
-								document.getElementById('select-result').value = $(this).attr("id");
+								//document.getElementById('select-result').value = $(this).attr("id"); 
+								$('#select-result').val( $(this).attr("id") );  //the value of the id  
 							});
 						},
 						unselecting: function(event, ui) {
 							$('#selectable .ui-selected').removeClass('ui-selected');
-							document.getElementById('select-result').value = null;
+							//document.getElementById('select-result').value = null;  
+							$('#select-result').val('');
 						}
 					});
 					$('#create_report').button().click(function() {
@@ -109,10 +111,10 @@
 						$.post("http://quebio.ca/testing/Jason/php/rapport.php", { orgname: organisationName, adminid: <?php echo "\"" + $account->uid + "\"";?>}, function(data) { alert(data); window.location.replace("http://quebio.ca/entreprisebio/#tab4");});
 					});
 					$('#delete_report').button().click(function() {
-						var reportID = document.getElementById('select-result').value;
+						var reportID = $('#select-result').val();
 						var missingFields = "";
 
-						if ( reportID=="" || reportID=="" ){
+						if ( reportID==""){
 							missingFields += "No report were selected.\n";
 						}
 						if ( missingFields=="" ){
@@ -190,10 +192,10 @@
 							});
 					});
 					$('#viewable_report').button().click(function() {
-						var reportID = document.getElementById('select-result').value;
+						var reportID = $('#select-result').val();  //document.getElementById('select-result').value;
 						var missingFields = "";
 
-						if ( reportID=="" || reportID=="" ){
+						if ( reportID=="" ){
 							missingFields += "No report were selected.\n";
 						}
 						if ( missingFields=="" ){
@@ -204,16 +206,16 @@
 						}
 					});
 					$('#submit_email').button().click(function() {
-						var emailRecipient = document.getElementById('recipient').value;
-						var information = document.getElementById('information').value;
-						var reportID = document.getElementById('select-result').value;
+						var emailRecipient = $('#recipient').val();  //document.getElementById('recipient').value;
+						var information = $('#information').val();
+						var reportID = $('#select-result').val();
 						var organisationName = <?php echo json_encode($field[0]['value']); ?>; // Parse PHP Variable to Javascript.
 						var missingFields = "";
 
 						if ( emailRecipient=="" || emailRecipient==null){
 							missingFields += "E-mail field is empty.\n";
 						}
-						if ( reportID=="" || reportID=="" ){
+						if ( reportID==""){
 							missingFields += "No report were selected.\n";
 						}
 						if ( missingFields=="" ){
